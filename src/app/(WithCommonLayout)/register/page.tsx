@@ -1,14 +1,26 @@
+"use client";
 import FXForm from "@/src/components/form/FXform";
 import FXInput from "@/src/components/form/FXInput";
+import { useUserRegistration } from "@/src/hooks/auth.hook";
 import registerValidationSchema from "@/src/schemas/register.schema";
+import { registerUser } from "@/src/services/AuthService";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Button } from "@nextui-org/button";
 import Link from "next/link";
 import React from "react";
 import { FieldValues, SubmitHandler } from "react-hook-form";
 
-export default function registration() {
-  const onSubmit: SubmitHandler<FieldValues> = async (data) => {};
+export default function register() {
+  const { mutate: handleRegisterUser } = useUserRegistration();
+  const onSubmit: SubmitHandler<FieldValues> = async (data) => {
+    const userData = {
+      ...data,
+      profilePhoto:
+        "https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_960_720.png",
+    };
+    console.log("insite form data", userData);
+    handleRegisterUser(userData);
+  };
   return (
     <div className="flex h-[calc(100vh-100px)] flex-col items-center justify-center">
       <h3 className="my-2 text-xl font-bold">Register with FoundX</h3>
